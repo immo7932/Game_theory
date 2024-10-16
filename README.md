@@ -27,8 +27,6 @@ Access the live versions of the frontend and backend applications through the li
 - **Frontend Application:** [https://game-theory-alpha.vercel.app/login](https://game-theory-alpha.vercel.app/login)
 - **Backend API:** [https://game-theory-7pdf.onrender.com](https://game-theory-7pdf.onrender.com)
 
-*Replace the placeholder URLs with your actual deployed application links.*
-
 ---
 
 ## Prerequisites
