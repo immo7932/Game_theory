@@ -1,0 +1,97 @@
+body {
+    background-color: #00bfff; /* Lighter, more vibrant blue */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-form {
+    background-color: #34495e; /* Slightly lighter for contrast */
+    padding: 40px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.register-form h2 {
+    color: #ecf0f1;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: #bdc3c7; /* Light grey for labels */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #2c3e50; /* Dark background for input fields */
+    color: #ecf0f1; /* Light text color for readability */
+}
+
+.form-group input::placeholder {
+    color: #bdc3c7; /* Placeholder color */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    background-color: #3b4b61; /* Slightly lighter on focus */
+    color: #ecf0f1; /* Maintain light text color */
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #27ae60; /* More vibrant green */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #2ecc71; /* Lighter green on hover */
+}
+
+p {
+    color: #ecf0f1;
+    text-align: center;
+}
+.go-to-login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .go-to-login-btn:hover {
+    background-color: #2980b9;
+  }
+  
