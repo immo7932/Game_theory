@@ -9,6 +9,7 @@ This project is a web application built using **React** and **Chakra UI** for th
 ## Table of Contents
 
 - [Live Demo](#live-demo)
+- [Project Rport](#Project-Report)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
@@ -26,6 +27,12 @@ Access the live versions of the frontend and backend applications through the li
 
 - **Frontend Application:** [https://game-theory-alpha.vercel.app/login](https://game-theory-alpha.vercel.app/login)
 - **Backend API:** [https://game-theory-7pdf.onrender.com](https://game-theory-7pdf.onrender.com)
+
+---
+
+## Project Report
+
+-- **Report Link:** [https://drive.google.com/file/d/1a9qBbro1KgwunFma3TKujofIxAJraKNu/view?usp=sharing](https://drive.google.com/file/d/1a9qBbro1KgwunFma3TKujofIxAJraKNu/view?usp=sharing)
 
 ---
 
