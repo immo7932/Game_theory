@@ -1,9 +1,3 @@
-Certainly! I'll update the previously provided `README.md` to include a **"Live Demo"** section where you can provide links to your deployed frontend and backend applications. This addition will help users and collaborators quickly access and interact with your project.
-
-Below is the **updated `README.md`** with the new section included. I've also highlighted where to insert your actual deployment links.
-
----
-
 # README
 
 **College ID Number: IEC2021057**
