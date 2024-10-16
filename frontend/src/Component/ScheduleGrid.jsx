@@ -26,51 +26,46 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import './ScheduleGrid.css'; // Import the custom CSS
+import './ScheduleGrid.css'; // Ensure the path is correct
 import { AuthContext } from '../AuthContext';
-import { generateDateRange } from "../utils/dateUtils.js" // Import the date utility
+import { generateDateRange } from "../utils/dateUtils.js";
 
 const ScheduleGrid = () => {
-  const { user, isAuthenticated } = useContext(AuthContext); // Correct Hook usage
+  const { user } = useContext(AuthContext);
 
-  // State for centers
+  // State variables
   const [centers, setCenters] = useState([]);
   const [centersLoading, setCentersLoading] = useState(false);
   const [centersError, setCentersError] = useState(null);
 
-  // State for sports
   const [sports, setSports] = useState([]);
   const [sportsLoading, setSportsLoading] = useState(false);
   const [sportsError, setSportsError] = useState(null);
 
-  // State for available courts
   const [availableCourts, setAvailableCourts] = useState([]);
   const [courtsLoading, setCourtsLoading] = useState(false);
   const [courtsError, setCourtsError] = useState(null);
 
-  // State for available slots
   const [availableSlots, setAvailableSlots] = useState([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [slotsError, setSlotsError] = useState(null);
 
-  // State for selections
   const [selectedCenterId, setSelectedCenterId] = useState("");
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedCourt, setSelectedCourt] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
-  // Generate dynamic dates (e.g., next 7 days)
   const [dates, setDates] = useState([]);
 
   useEffect(() => {
     const dynamicDates = generateDateRange(7); // Generate next 7 days
     setDates(dynamicDates);
     console.log("Generated Dynamic Dates:", dynamicDates);
-  }, []); // Run once on component mount
+  }, []);
 
   // Modal controls
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedSlot, setSelectedSlot] = useState(null); // { startTime, endTime, courtName }
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const [bookingName, setBookingName] = useState("");
   const [bookingItems, setBookingItems] = useState(0);
   const [bookingSlots, setBookingSlots] = useState("");
@@ -186,10 +181,6 @@ const ScheduleGrid = () => {
       const data = await response.json();
       console.log("Fetched Available Slots:", data);
 
-      // Assuming the API returns all slots, mark them as booked or available
-      // If the API only returns available slots, you might need to fetch all slots separately
-      // For demonstration, we'll assume it returns only available slots and we'll track booked slots locally
-
       // Initialize availableSlots with a 'booked' property set to false
       const initializedSlots = data.availableSlots.map(slot => ({
         ...slot,
@@ -297,160 +288,165 @@ const ScheduleGrid = () => {
   return (
     <Box className="schedule-container" p={4}>
       <Heading mb={4} fontSize="2xl" textAlign="center">Court-wise Schedule</Heading>
-
-      <VStack spacing={4} align="stretch" className="selectors">
-        {/* Center Selection */}
-        {centersError && (
-          <Alert status="error">
-            <AlertIcon />
-            {centersError}
-          </Alert>
-        )}
-        <Select
-          className="select-dropdown"
-          placeholder={centersLoading ? "Loading Centers..." : "Select Center"}
-          value={selectedCenterId}
-          onChange={(e) => {
-            setSelectedCenterId(e.target.value);
-            setSelectedSport(""); // Reset sport when center changes
-            setSelectedCourt(""); // Reset court when center changes
-            setSelectedDate(""); // Reset date when center changes
-            setAvailableCourts([]); // Clear courts when center changes
-            setAvailableSlots([]); // Clear slots when center changes
-          }}
-          isDisabled={centersLoading || centersError}
-        >
-          {centers.map((center) => (
-            <option key={center._id} value={center._id}>{center.name}</option>
-          ))}
-        </Select>
-        {centersLoading && <Spinner size="sm" />}
-
-        {/* Sport Selection */}
-        {sportsError && (
-          <Alert status="error">
-            <AlertIcon />
-            {sportsError}
-          </Alert>
-        )}
-        <Select
-          className="select-dropdown"
-          placeholder={sportsLoading ? "Loading Sports..." : "Select Sport"}
-          value={selectedSport}
-          onChange={(e) => {
-            setSelectedSport(e.target.value);
-            setSelectedCourt(""); // Reset court when sport changes
-            setSelectedDate(""); // Reset date when sport changes
-            setAvailableCourts([]); // Clear courts when sport changes
-            setAvailableSlots([]); // Clear slots when sport changes
-          }}
-          isDisabled={!selectedCenterId || sportsLoading || sportsError}
-        >
-          {sports.map((sport) => (
-            <option key={sport._id} value={sport._id}>{sport.name}</option>
-          ))}
-        </Select>
-        {sportsLoading && <Spinner size="sm" />}
-
-        {/* Court Selection */}
-        {courtsError && (
-          <Alert status="error">
-            <AlertIcon />
-            {courtsError}
-          </Alert>
-        )}
-        <Select
-          className="select-dropdown"
-          placeholder={courtsLoading ? "Loading Courts..." : "Select Court"}
-          value={selectedCourt}
-          onChange={(e) => {
-            setSelectedCourt(e.target.value);
-            setSelectedDate(""); // Reset date when court changes
-            setAvailableSlots([]); // Clear slots when court changes
-          }}
-          isDisabled={!selectedSport || !selectedCenterId || courtsLoading || courtsError}
-        >
-          {availableCourts.map((court) => (
-            <option key={court._id} value={court._id}>{court.name}</option>
-          ))}
-        </Select>
-        {courtsLoading && <Spinner size="sm" />}
-
-        {/* Date Selection */}
-        <Select
-          className="select-dropdown"
-          placeholder="Select Date"
-          value={selectedDate}
-          onChange={(e) => {
-            setSelectedDate(e.target.value);
-            setAvailableSlots([]); // Clear slots when date changes
-          }}
-          isDisabled={!selectedCourt}
-        >
-          {dates.map((date, index) => (
-            <option key={index} value={date}>{new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</option>
-          ))}
-        </Select>
-
-        {/* Submit Button */}
-        <Button
-          colorScheme="blue"
-          onClick={handleSubmit}
-          isDisabled={!selectedCenterId || !selectedSport || !selectedCourt || !selectedDate || slotsLoading}
-        >
-          {slotsLoading ? <Spinner size="sm" /> : "Find Available Slots"}
-        </Button>
-      </VStack>
-
-      {/* Loading and Error States for Available Slots */}
-      {slotsLoading && (
-        <Box mt={8} textAlign="center">
-          <Spinner size="lg" />
-        </Box>
-      )}
-      {slotsError && (
-        <Alert status="error" mt={8}>
-          <AlertIcon />
-          {slotsError}
-        </Alert>
-      )}
-
-      {/* Available Slots Display */}
-      {!slotsLoading && !slotsError && availableSlots.length > 0 && (
-        <Box className="slots-container" mt={8}>
-          <Heading size="md" mb={4}>Available Slots</Heading>
-          <Grid templateColumns="repeat(auto-fit, minmax(150px, 1fr))" gap={4}>
-            {availableSlots.map((slot, index) => (
-              <GridItem key={index}>
-                <Box
-                  borderWidth="1px"
-                  borderRadius="md"
-                  p={4}
-                  textAlign="center"
-                  bg={slot.booked ? "red.100" : "green.100"} // Conditional background color
-                  cursor={slot.booked ? "not-allowed" : "pointer"}
-                  _hover={{ bg: slot.booked ? "red.200" : "green.200" }}
-                  onClick={() => handleSlotClick(slot)}
-                >
-                  <Text fontWeight="bold">{slot.startTime} - {slot.endTime}</Text>
-                  {slot.booked && (
-                    <Text fontSize="sm" color="red.500">
-                      Booked
-                    </Text>
-                  )}
-                </Box>
-              </GridItem>
+      <Box className="content-container">
+        <VStack spacing={4} align="stretch" className="selectors">
+          {/* Center Selection */}
+          {centersError && (
+            <Alert status="error">
+              <AlertIcon />
+              {centersError}
+            </Alert>
+          )}
+          <Select
+            className="select-dropdown"
+            placeholder={centersLoading ? "Loading Centers..." : "Select Center"}
+            value={selectedCenterId}
+            onChange={(e) => {
+              setSelectedCenterId(e.target.value);
+              setSelectedSport(""); // Reset sport when center changes
+              setSelectedCourt(""); // Reset court when center changes
+              setSelectedDate(""); // Reset date when center changes
+              setAvailableCourts([]); // Clear courts when center changes
+              setAvailableSlots([]); // Clear slots when center changes
+            }}
+            isDisabled={centersLoading || centersError}
+          >
+            {centers.map((center) => (
+              <option key={center._id} value={center._id}>{center.name}</option>
             ))}
-          </Grid>
-        </Box>
-      )}
+          </Select>
+          {centersLoading && <Spinner size="sm" />}
 
-      {/* No Available Slots Message */}
-      {!slotsLoading && !slotsError && availableSlots.length === 0 && selectedDate && (
-        <Text mt={8} textAlign="center" color="gray.500">
-          No available slots for the selected criteria.
-        </Text>
-      )}
+          {/* Sport Selection */}
+          {sportsError && (
+            <Alert status="error">
+              <AlertIcon />
+              {sportsError}
+            </Alert>
+          )}
+          <Select
+            className="select-dropdown"
+            placeholder={sportsLoading ? "Loading Sports..." : "Select Sport"}
+            value={selectedSport}
+            onChange={(e) => {
+              setSelectedSport(e.target.value);
+              setSelectedCourt(""); // Reset court when sport changes
+              setSelectedDate(""); // Reset date when sport changes
+              setAvailableCourts([]); // Clear courts when sport changes
+              setAvailableSlots([]); // Clear slots when sport changes
+            }}
+            isDisabled={!selectedCenterId || sportsLoading || sportsError}
+          >
+            {sports.map((sport) => (
+              <option key={sport._id} value={sport._id}>{sport.name}</option>
+            ))}
+          </Select>
+          {sportsLoading && <Spinner size="sm" />}
+
+          {/* Court Selection */}
+          {courtsError && (
+            <Alert status="error">
+              <AlertIcon />
+              {courtsError}
+            </Alert>
+          )}
+          <Select
+            className="select-dropdown"
+            placeholder={courtsLoading ? "Loading Courts..." : "Select Court"}
+            value={selectedCourt}
+            onChange={(e) => {
+              setSelectedCourt(e.target.value);
+              setSelectedDate(""); // Reset date when court changes
+              setAvailableSlots([]); // Clear slots when court changes
+            }}
+            isDisabled={!selectedSport || !selectedCenterId || courtsLoading || courtsError}
+          >
+            {availableCourts.map((court) => (
+              <option key={court._id} value={court._id}>{court.name}</option>
+            ))}
+          </Select>
+          {courtsLoading && <Spinner size="sm" />}
+
+          {/* Date Selection */}
+          <Select
+            className="select-dropdown"
+            placeholder="Select Date"
+            value={selectedDate}
+            onChange={(e) => {
+              setSelectedDate(e.target.value);
+              setAvailableSlots([]); // Clear slots when date changes
+            }}
+            isDisabled={!selectedCourt}
+          >
+            {dates.map((date, index) => (
+              <option key={index} value={date}>{new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</option>
+            ))}
+          </Select>
+
+          {/* Submit Button */}
+          <Button
+            colorScheme="blue"
+            onClick={handleSubmit}
+            isDisabled={!selectedCenterId || !selectedSport || !selectedCourt || !selectedDate || slotsLoading}
+          >
+            {slotsLoading ? <Spinner size="sm" /> : "Find Available Slots"}
+          </Button>
+        </VStack>
+
+        {/* Loading and Error States for Available Slots */}
+        {slotsLoading && (
+          <Box mt={8} textAlign="center">
+            <Spinner size="lg" />
+          </Box>
+        )}
+        {slotsError && (
+          <Alert status="error" mt={8}>
+            <AlertIcon />
+            {slotsError}
+          </Alert>
+        )}
+
+        {/* Available Slots Display */}
+        {!slotsLoading && !slotsError && availableSlots.length > 0 && (
+          <Box className="slots-container" mt={8}>
+            <Heading size="md" mb={4}>Available Slots</Heading>
+            <Grid
+              templateColumns={{ base: "repeat(auto-fill, minmax(150px, 1fr))", md: "repeat(5, 1fr)" }}
+              gap={4}
+            >
+              {availableSlots.map((slot, index) => (
+                <GridItem key={index}>
+                  <Box
+                    borderWidth="1px"
+                    borderRadius="md"
+                    p={4}
+                    textAlign="center"
+                    bg={slot.booked ? "red.500" : "green.500"} // Darker colors for better visibility
+                    color="white" // Ensure text is visible on darker backgrounds
+                    cursor={slot.booked ? "not-allowed" : "pointer"}
+                    _hover={{ bg: slot.booked ? "red.600" : "green.600" }}
+                    onClick={() => handleSlotClick(slot)}
+                  >
+                    <Text fontWeight="bold">{slot.startTime} - {slot.endTime}</Text>
+                    {slot.booked && (
+                      <Text fontSize="sm" color="white">
+                        Booked
+                      </Text>
+                    )}
+                  </Box>
+                </GridItem>
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {/* No Available Slots Message */}
+        {!slotsLoading && !slotsError && availableSlots.length === 0 && selectedDate && (
+          <Text mt={8} textAlign="center" color="gray.500">
+            No available slots for the selected criteria.
+          </Text>
+        )}
+      </Box>
 
       {/* Booking Modal */}
       <Modal isOpen={isOpen} onClose={() => { onClose(); setSelectedSlot(null); }}>
@@ -478,10 +474,10 @@ const ScheduleGrid = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button 
-              colorScheme="blue" 
-              mr={3} 
-              onClick={handleBookingSubmit} 
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleBookingSubmit}
               isDisabled={!bookingName}
             >
               Book
