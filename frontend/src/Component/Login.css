@@ -1,5 +1,6 @@
 /* src/Component/Login.css */
 
+/* General styles */
 body {
   background-color: #f0f4f7; /* Softer background color */
   font-family: 'Arial', sans-serif;
@@ -7,42 +8,48 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin-top: 30px;
+  min-height: 100vh;
 }
 
+/* Container for the login form */
 .login-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start; /* Changed from center to flex-start */
+  width: 100%;
+  margin-top: 30px; /* Added margin-top */
 }
 
+/* Login form styling */
 .login-form {
   background-color: #34495e;
   padding: 40px;
   border-radius: 10px;
-  width: 130%;
-  max-width: 400px;
+  width: 400px;
+  max-width: 90%;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Increased shadow for depth */
 }
 
+/* Heading styling */
 .login-form h2 {
   color: #ecf0f1;
   margin-bottom: 20px;
   text-align: center;
 }
 
+/* Form group styling */
 .form-group {
   margin-bottom: 15px;
 }
 
+/* Labels */
 .form-group label {
   color: #bdc3c7;
   display: block;
   margin-bottom: 5px;
 }
 
+/* Inputs */
 .form-group input {
   width: 100%;
   padding: 10px;
@@ -53,15 +60,18 @@ body {
   color: #ecf0f1;
 }
 
+/* Placeholder text */
 .form-group input::placeholder {
   color: #bdc3c7;
 }
 
+/* Focus state */
 .form-group input:focus {
   background-color: #3b4b61;
   color: #ecf0f1;
 }
 
+/* Submit button */
 .submit-btn {
   width: 100%;
   padding: 10px;
@@ -73,15 +83,18 @@ body {
   font-size: 16px;
 }
 
+/* Submit button hover state */
 .submit-btn:hover {
   background-color: #2ecc71;
 }
 
+/* Text between buttons */
 p {
   color: #ecf0f1;
   text-align: center;
 }
 
+/* Go to Register button */
 .go-to-register-btn {
   width: 100%;
   padding: 10px;
@@ -94,6 +107,7 @@ p {
   margin-top: 10px;
 }
 
+/* Go to Register button hover state */
 .go-to-register-btn:hover {
   background-color: #2980b9;
 }

@@ -3,7 +3,7 @@
 /* Container styling */
 .schedule-container {
   width: 100%;
-  max-width: 1200px; /* Adjusted for desktop view */
+  min-width: 800;/* Adjusted for desktop view */
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
@@ -13,7 +13,7 @@
 /* Content container to keep width consistent */
 .content-container {
   width: 100%;
-  max-width: 800px; /* Set a consistent max-width */
+  min-width: 800px; /* Set a consistent max-width */
   margin: 0 auto;
 }
 
