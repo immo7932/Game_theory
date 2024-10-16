@@ -60,7 +60,7 @@ const Register = () => {
             role: "customer",
           });
           login(data.token, data.user); // Update auth context
-          navigate('/schedule'); // Redirect to ScheduleGrid
+          navigate('/login'); // Redirect to ScheduleGrid
         } else {
           setMessage('Invalid response from server.');
           console.error("Register response missing token or user:", data);
