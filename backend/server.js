@@ -1,5 +1,5 @@
 import express from "express"
-import "dotenv/config"
+
 import cors from "cors"
 import { connectDb } from "./config/db.js";
 import userRouter from "./route/userRoute.js";
@@ -8,6 +8,8 @@ import sportroute from "./route/sportRoute.js"
 import centreroute from "./route/centreRoute.js"
 import courtRoute from "./route/courtRoute.js";
 import scheduleRoute from "./route/scheduleRoute.js"
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express()
 const port = 4000;
